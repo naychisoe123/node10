@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include ../partial/head %>
+<body data-background-color="dark">
+	<div class="wrapper">
+		<div class="main-header">
+			<!-- Logo Header -->
+			<% include ../partial/header %>
+
+			
+			
+		</div>
+
+		<!-- Sidebar -->
+		<% include ../partial/sidebar %>
+		<!-- End Sidebar -->
+
+
+            <div class="main-panel">
+                <div class="content">
+                    <div class="page-inner">
+                        <div class="page-header">
+                            <h4 class="page-title">Forms</h4>
+                            <ul class="breadcrumbs">
+                                <li class="nav-home">
+                                    <a href="#">
+                                        <i class="flaticon-home"></i>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#">Forms</a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#">Basic Form</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Form Elements</div>
+                                    </div>
+                                    <div class="card-body">
+                                    
+                                        <div class="row">
+                                            <div class="col-md-6 col-lg-4">
+                                                <form action="/users/useradd" id="myform" method="post" >
+                                                <div class="form-group">
+                                                    <label for="name">User Name</label>
+                                                    <input type="text" class="form-control" name="uname" id="name" placeholder="Enter User Name">
+                                                    <small id="emailHelp2" class="form-text text-muted">We'll never share your name with anyone else.</small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email Address</label>
+                                                    <input type="email" class="form-control" name="uemail" id="email" placeholder="Enter Email">
+                                                    <small id="emailHelp2" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="pwd">Password</label>
+                                                    <input type="password" class="form-control" id="pwd" name="password" placeholder="Password">
+                                                    <small id="emailHelp2" class="form-text text-muted">We'll never share your password with anyone else.</small>
+                                                
+                                                </div>
+                                                
+                                            <div class="card-action">
+                                            <button class="btn btn-success" type="submit">Submit</button>
+                                            <button class="btn btn-danger">Cancel</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <nav class="pull-left">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="https://www.themekita.com">
+                                        ThemeKita
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        Help
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        Licenses
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="copyright ml-auto">
+                            2018, made with <i class="fa fa-heart heart text-danger"></i> by <a href="https://www.themekita.com">ThemeKita</a>
+                        </div>				
+                    </div>
+                </footer>
+            </div>
+			<% include ../partial/footer %>
+		</div>
+		
+		<!-- Custom template | don't include it in your project! -->
+		<% include ../partial/customTemplate %>
+		<!-- End Custom template -->
+	</div>
+	<!--   Core JS Files   -->
+	<% include ../partial/script %>
+</body>
+
+
+<script src="/javascripts/jquery.validate.min.js"></script>
+
+<script>
+$("#email").blur(function(){
+    var datap={email:$("#email").val()};
+    console.log(datap)
+    if (datap.email!=''){
+        $.ajax({
+            url:"/users/emaildu",
+            data:datap,
+            type:"POST",
+            success:function(result){
+                if (result.status){
+                    alert("Duplicate Email && Invalid Email");
+                    $("#email").val("");
+                    $("#email").focus();
+                }
+            }
+        })
+    }
+
+})
+</script>
+<script src="/javascripts/jquery.min.js">
+</script>
+
+<script src="/javascripts/jquery.validate.min.js"></script>
+
+<script>
+$("#myform").validate({
+    rules:{
+        uname:{
+            required:true,
+            minlength:5,
+        },
+        uemail:{
+            required:true,
+            emailExt:true,
+        },
+        password:{
+            required:true,
+            minlength:8,
+            pwcheck:true,
+        }
+    },
+    messages:{
+        uname:{required:"name field need to insert"},
+             
+        uemail:{required:"email field need to insert"},
+             
+        password:{required:"password field need to insert",
+    pwcheck:{required:"Please enter 1Uppercase,1 lowercase and 1digit"}
+},
+    }
+    
+               
+})
+$.validator.addMethod("pwcheck", function (value) {
+      return (
+        /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && // consists of only these
+        /[a-z]/.test(value) && // has a lowercase letter
+        /\d/.test(value)
+      ); // has a digit
+    });
+    jQuery.validator.addMethod(
+      "emailExt",
+      function (value, element, param) {
+        return value.match(
+          /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/
+        );
+      },
+      "Your E-mail is wrong"
+    );
+</script>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Add</title>
+</head>
+<body>
+    <h1>User Add</h1>
+    <form action="/users/useradd" method="post" id="myform">
+    <label for="name">User Name</label>
+    <input type="text" name="uname" id="name">
+    <p></p>    
+    <label for="email">User Email</label>
+    <input type="text" name="uemail" id="email">
+    <p></p>    
+    <label for="pwd">User Passsword</label>
+    <input type="password" name="password" id="pwd">
+    <p></p>    
+    <input type="submit" value="Add">
+    </form>
+</body>
+<script src="/javascripts/jquery.min.js">
+</script>
+<script src="/javascripts/jquery.validate.min.js"></script>
+
+<script>
+$("#email").blur(function(){
+    var datap={email:$("#email").val()};
+    if (datap.email!=""){
+        $.ajax({
+            url:"/emaildu",
+            data:datap,
+            type:"POST",
+            success:function(result){
+                if (result.status){
+                    alert("Duplicate Email&& Invalid Email");
+                    $("#email").val("");
+                    $("#email").focus();
+                }
+            }
+        })
+    }
+
+})
+$("#myform").validate({
+    rules:{
+        uname:{
+            required:true,
+            minlength:5,
+        },
+        uemail:{
+            required:true,
+            emailExt:true,
+        },
+        password:{
+            required:true,
+            minlength:8,
+            pwcheck:true,
+        }
+    },
+    messages:{
+        uname:{required:"name field need to insert"},
+             
+        uemail:{required:"email field need to insert"},
+             
+        password:{required:"password field need to insert",
+    pwcheck:{required:"Please enter 1Uppercase,1 lowercase and 1digit"}
+},
+    }
+    
+               
+})
+$.validator.addMethod("pwcheck", function (value) {
+      return (
+        /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && // consists of only these
+        /[a-z]/.test(value) && // has a lowercase letter
+        /\d/.test(value)
+      ); // has a digit
+    });
+    jQuery.validator.addMethod(
+      "emailExt",
+      function (value, element, param) {
+        return value.match(
+          /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/
+        );
+      },
+      "Your E-mail is wrong"
+    );
+</script>
+</html> --> -->
