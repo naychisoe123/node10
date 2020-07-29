@@ -11,6 +11,7 @@
     Content:<%= post.content %><p></p>
     Author Name:<%=post.author.name%><p></p>
     Author Email:<%=post.author.email%><p></p>
+    Profile: <img src="<%=post.imgUrl%>" alt="" width="100" height="50" srcset="">
     <a href="/posts/update/<%= post._id%>"><button>Update</button></a>
     <button onclick="del()">Delete</button>
 </body>
