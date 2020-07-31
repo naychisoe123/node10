@@ -18,8 +18,8 @@ router.post('/add',upload.single("photo"),function(req,res){
     var post=new Post();
     post.title=req.body.title;
     post.content=req.body.content;
-    if (req.file)post.imgUrl="/images/uploads/"+req.file.filename;
     post.author=req.body.author;
+    if (req.file) post.imgUrl="/images/uploads/"+req.file.filename;
     post.save(function(err,rtn){
         if (err) throw err;
         console.log(rtn);
@@ -32,8 +32,8 @@ router.get('/list',function(req,res){
         console.log(rtn);
         res.render('post/list',{post:rtn});
         
-    })
-})
+    });
+});
 router.get('/detail/:id',function(req,res){
     Post.findById(req.params.id).populate('author').exec(function(err,rtn){
         if (err) throw err;
